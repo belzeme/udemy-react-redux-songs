@@ -1,9 +1,11 @@
 import "semantic-ui-css/semantic.min.css";
 import React from "react";
 import { connect } from "react-redux";
+import { selectSong } from "../actions";
 
 interface ISongListProps {
   songs: { title: string; duration: string }[];
+  selectSong: CallableFunction;
 }
 class SongList extends React.Component<ISongListProps> {
   renderList() {
@@ -11,9 +13,14 @@ class SongList extends React.Component<ISongListProps> {
       return (
         <div key={song.title} className="item">
           <div className="right floated content">
-            <button className="ui button primary">Select</button>
+            <button
+              className="ui button primary"
+              onClick={() => this.props.selectSong(song)}
+            >
+              Select
+            </button>
           </div>
-          <div className="contentn">{song.title}</div>
+          <div className="content">{song.title}</div>
         </div>
       );
     });
@@ -30,4 +37,7 @@ const mapStateToProps = (state: any) => {
   };
 };
 
-export default connect(mapStateToProps)(SongList);
+export default connect(
+  mapStateToProps,
+  { selectSong }
+)(SongList);
